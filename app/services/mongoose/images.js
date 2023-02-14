@@ -1,5 +1,5 @@
 const Images = require('../../api/v1/images/model');
-
+const {NotFoundError} = require('../../errors/index');
 
 /** 
  * ada 2 cara 
@@ -18,6 +18,14 @@ const createImages = async(req) => {
   return result;
 }
 
+const checkingImages = async(id) => {
+  const result = await Images.findById(id);
+
+  if(!result) throw new NotFoundError( `image with id : ${id} not found`);
+
+  return result;
+}
+
 // * Cara kedua
 const generateUrlImages = async (req) => {
   const result = `uploads/${req.file.filename}`;
@@ -25,4 +33,4 @@ const generateUrlImages = async (req) => {
   return result;
 }
 
-module.exports = {createImages, generateUrlImages};
+module.exports = {createImages, generateUrlImages, checkingImages};
