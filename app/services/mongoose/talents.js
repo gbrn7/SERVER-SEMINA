@@ -26,7 +26,7 @@ const getAllTalents = async(req) => {
 
 const createTalents = async(req) => {
   const {name, role, image} = req.body;
-  console.log(image);
+  
   await checkingImages(image);
 
   const check = await Talent.findOne({name});
@@ -89,5 +89,5 @@ const checkingTalents = async() => {
   return result;
 }
 
-module.exports = {getAllTalents, createTalents, getOneTalents, updateTalents, deleteTalents};
+module.exports = {getAllTalents, createTalents, getOneTalents, updateTalents, deleteTalents, checkingTalents};
 

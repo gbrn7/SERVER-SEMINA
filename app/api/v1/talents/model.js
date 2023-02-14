@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const {model, Schema} = mongoose;
+//the above command definition of object 
+//and above comman is equivalent with 'const model = new mongoose.Schema
+//conts model = new mongoose.model
 
 let talentSchema = Schema(
   {

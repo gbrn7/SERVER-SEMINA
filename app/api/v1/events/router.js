@@ -1,34 +1,15 @@
 const express = require('express');
 const router = express();
+const { create, index, find, update, destroy } = require('./controller');
 
-router.get('/events', (req, res) => {
-    res.status(200).json({
-        message: 'get all events',
-    });
-});
+router.get('/events', index);
 
-router.post('/events', (req, res) => {
-    res.status(200).json({
-        message: 'create events',
-    });
-});
+router.post('/events', create);
 
-router.get('/events/:id', (req, res) => {
-    res.status(200).json({
-        message: "get one events by id"
-    });
-});
+router.get('/events/:id', find);
 
-router.put('/events/:id', (req, res) => {
-    res.status(200).json({
-        message: 'update events',
-    });
-});
+router.put('/events/:id', update);
 
-router.delete('/events/:id', (req, res) => {
-    res.status(200).json({
-        message: 'delete events',
-    });
-});
+router.delete('/events/:id', destroy);
 
 module.exports = router; //this command is to make this router can be accessible by app.js
