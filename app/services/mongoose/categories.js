@@ -37,11 +37,17 @@ const updateCategories = async(req) => {
   const { id } = req.params;
   const { name } = req.body;
 
+  //Checking in database
+  const checkid = await Categories.findById(id);
+
+  //if null throw the below message
+  if(!checkid) throw new NotFoundError(`Event with id ${id} not found`);
+
   // Checking in database 
-  const check = await Categories.findOne({name, _id: { $ne: id}});
-    
+  const check = await Categories .findOne({name, _id:{$ne:id}});
+
   // if the input data is already in database then throw error 'BadRequestError'
-  if (!check) throw new BadRequestError(`The category name is duplicate with other`);
+  if (check) throw new BadRequestError(`The category name is duplicate with other`);
 
   const result = await Categories.findByIdAndUpdate({ _id: id }, { name: name }, { new: true, runValidators: true });
 
@@ -53,7 +59,6 @@ const updateCategories = async(req) => {
 const deleteCategories = async(req) =>{
   const{id} = req.params;
 
-  //Checking in database
   const result = await Categories.findOne({_id : id});
 
   if (!result) throw new NotFoundError(`The id Category ${id} is not found`);
@@ -66,7 +71,7 @@ const deleteCategories = async(req) =>{
 const checkingCategories = async(id) =>{
   const result = await Categories.findOne({_id : id});
 
-  if(!result) throw new NotFoundError(`categories with id ${id}`);
+  if(!result) throw new NotFoundError(`categories with id ${id} not found`);
 
   return result;
 }

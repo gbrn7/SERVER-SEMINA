@@ -60,6 +60,12 @@ const updateTalents = async (req) =>{
 
   await checkingImages(image);
 
+  //Checking in database
+  const checkid = await Talent.findById(id);
+
+  //if null throw the below message
+  if(!checkid) throw new NotFoundError(`Event with id ${id} not found`);
+
   const check = await Talent.findOne({name, _id:{$ne : id}});
 
   if(check) throw new BadRequestError("The talents is already exist");
@@ -81,7 +87,7 @@ const deleteTalents = async(req) => {
   return result;
 }
 
-const checkingTalents = async() => {
+const checkingTalents = async(id) => {
   const result = await Talent.findOne({_id: id});
 
   if(!result) throw new BadRequestError(`Talent with id ${id} is not existed`);

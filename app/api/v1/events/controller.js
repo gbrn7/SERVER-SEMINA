@@ -1,4 +1,4 @@
-const { getAllEvents, createEvent, getOneEvent, updateEvent } = require('../../../services/mongoose/events');
+const { getAllEvents, createEvent, getOneEvent, updateEvent, deleteEvent } = require('../../../services/mongoose/events');
 const {StatusCodes} = require('http-status-codes');
 const { deleteCategories } = require('../../../services/mongoose/categories');
 
@@ -35,7 +35,7 @@ const find = async (req, res, next) => {
   try {
     const result = await getOneEvent(req);
 
-    res.status.OK.json({
+    res.status(StatusCodes.OK).json({
       data: result,
     })
 
@@ -48,7 +48,7 @@ const update = async (req, res, next) => {
   try {
     const result = await updateEvent(req);
 
-    res.status.OK.json({
+    res.status(StatusCodes.CREATED).json({
       data: result,
     })
 
@@ -59,9 +59,9 @@ const update = async (req, res, next) => {
 
 const destroy = async (req, res, next) => {
   try {
-    const result = await deleteCategories(req);
+    const result = await deleteEvent(req);
 
-    res.status.OK.json({
+    res.status(StatusCodes.OK).json({
       data: result,
     })
 

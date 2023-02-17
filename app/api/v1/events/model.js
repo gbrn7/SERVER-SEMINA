@@ -61,18 +61,18 @@ const EventSchema =  mongoose.Schema(
       type:[ticketCategoriesSchema],
       required: true,
     },
-    categories:{
-      type: mongoose.Schema.Types.ObjectId,
+    category:{
+      type: mongoose.Types.ObjectId,
       ref: 'Category',
       required: true
     },
     image:{
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Types.ObjectId,
       ref: 'Image',
       required: true
     },
     talent:{
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Types.ObjectId,
       ref: 'Talent',
       required: true
     },
