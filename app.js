@@ -10,6 +10,7 @@ const categoriesRouter = require('./app/api/v1/categories/router') //import the 
 const talentsRouter = require('./app/api/v1/talents/router') //import the router
 const imagesRouter = require('./app/api/v1/images/router') //import the router
 const eventsRouter = require('./app/api/v1/events/router') //import the router
+const organizerRouter = require('./app/api/v1/Organizer/router') //import the router
 const paymentsRouter = require('./app/api/v1/payments/router') //import the router
 const ticketsCategoriesRouter = require('./app/api/v1/Ticket Categories/router') //import the router
 const orderRouter = require('./app/api/v1/Order/router') //import the router
@@ -42,6 +43,7 @@ app.use(v1, categoriesRouter);
 app.use(v1, talentsRouter);
 app.use(v1, imagesRouter);
 app.use(v1, eventsRouter);
+app.use(v1, organizerRouter);
 app.use(v1, paymentsRouter);
 app.use(v1, ticketsCategoriesRouter);
 app.use(v1b, orderRouter);
