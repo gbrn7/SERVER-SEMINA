@@ -11,14 +11,14 @@ const talentsRouter = require('./app/api/v1/talents/router') //import the router
 const imagesRouter = require('./app/api/v1/images/router') //import the router
 const eventsRouter = require('./app/api/v1/events/router') //import the router
 const organizerRouter = require('./app/api/v1/Organizer/router') //import the router
+const authCMSRouter = require('./app/api/v1/Auth/router') //import the router
 const paymentsRouter = require('./app/api/v1/payments/router') //import the router
 const ticketsCategoriesRouter = require('./app/api/v1/Ticket Categories/router') //import the router
 const orderRouter = require('./app/api/v1/Order/router') //import the router
-const authRouter = require('./app/api/v1/Auth/router') //import the router
 const participantsRouter = require('./app/api/v1/participants/router') //import the router
 
 const v1 = '/api/v1/cms';
-const v1b = '/api/v1';
+
 
 
 // middlewares
@@ -46,9 +46,9 @@ app.use(v1, eventsRouter);
 app.use(v1, organizerRouter);
 app.use(v1, paymentsRouter);
 app.use(v1, ticketsCategoriesRouter);
-app.use(v1b, orderRouter);
-app.use(v1b, authRouter);
-app.use(v1b, participantsRouter);
+app.use(v1, orderRouter);
+app.use(v1, authCMSRouter);
+app.use(v1, participantsRouter);
 
 // middlewares //this must in the bellow of router code so not return error
 app.use(notFoundMiddleware);

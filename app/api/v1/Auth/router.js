@@ -1,18 +1,7 @@
 const express = require('express');
+const signInCms = require('./controller');
 const router = express();
 
-router.post('/signin', (req, res) => {
-    res.status(200).json({
-        message: 'Signin',
-    });
-});
-
-
-router.post('/cms/organizers', (req, res) => {
-    res.status(200).json({
-        message: "create admin / organizer"
-    });
-});
-
+router.post('/auth/signin', signInCms);
 
 module.exports = router; //this command is to make this router can be accessible by app.js
