@@ -4,7 +4,7 @@ const { StatusCodes } = require('http-status-codes');
 
 const index = async (req, res, next) => {
     try {
-        const result = await getAllCategories();
+        const result = await getAllCategories(req);
         // if (!result) return res.status(404).json({ message: "Id categories is not valid" })
         //if conditional above is true so the command bellow is not to be execute
 

@@ -16,6 +16,7 @@ const signin = async (req) =>{
   }
 
   const isPasswordValid = await result.comparePassword(password);
+  //the above line is return the boolean from compare password function model
 
   if(!isPasswordValid){
     throw new Unauthorized('Invalid Credentials');

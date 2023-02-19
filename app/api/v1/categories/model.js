@@ -11,6 +11,11 @@ let categorySchema = Schema({
         maxLength: [20, 'Max 20 Character'],
         required: [true, 'The category name is required'],
     },
+    organizer: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Organizer',
+        required: true
+    },
 }, { timestamps: true }); //schema is design of table or collection in mongodb
 
 module.exports = model('Category', categorySchema);
