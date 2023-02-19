@@ -7,7 +7,7 @@ const {
     // authenticateParticipant
 } = require('../../../middlewares/auth')
 
-router.get('/users', authenticateUser, authorizeRoles('organizer'), getCmsUsers);
+router.get('/users', authenticateUser, authorizeRoles('owner'), getCmsUsers);
 router.post('/organizers', authenticateUser, authorizeRoles('owner'), createCmsOrganizer);
 router.post('/users', authenticateUser, authorizeRoles('organizer'), createCmsUser);
 

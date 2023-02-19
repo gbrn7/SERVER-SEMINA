@@ -50,11 +50,11 @@ app.use(v1, orderRouter);
 app.use(v1, authCMSRouter);
 app.use(v1, participantsRouter);
 
-console.log('test 1');
+
 // middlewares //this must in the bellow of router code so not return error
 app.use(notFoundMiddleware);
 app.use(handleErrorMiddleware);
 
-console.log('test 2');
+
 
 module.exports = app;
