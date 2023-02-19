@@ -1,8 +1,8 @@
-const {getAllCategories, getOneCategories, createCategories, updateCategories, deleteCategories} = require('../../../services/mongoose/categories')
+const { getAllCategories, getOneCategories, createCategories, updateCategories, deleteCategories } = require('../../../services/mongoose/categories')
 const { StatusCodes } = require('http-status-codes');
 
 
-const index = async (req, res, next) => {
+const index = async(req, res, next) => {
     try {
         const result = await getAllCategories(req);
         // if (!result) return res.status(404).json({ message: "Id categories is not valid" })
@@ -16,7 +16,7 @@ const index = async (req, res, next) => {
     }
 };
 
-const create = async (req, res, next) => {
+const create = async(req, res, next) => {
     try {
         const result = await createCategories(req); //create with model and flled with req
         res.status(StatusCodes.CREATED).json({
@@ -28,8 +28,9 @@ const create = async (req, res, next) => {
 }; //'next' is handle for error
 
 
-const find = async (req, res, next) => {
+const find = async(req, res, next) => {
     try {
+
         const result = await getOneCategories(req);
         // if (!result) return res.status(404).json({ message: "Id categories is not valid" })
         //if conditional above is true so the command bellow is not to be execute
@@ -42,7 +43,7 @@ const find = async (req, res, next) => {
     }
 }
 
-const update = async (req, res, next) => {
+const update = async(req, res, next) => {
     try {
         // const checkData = await Categories.findById(id);
 
@@ -61,7 +62,7 @@ const update = async (req, res, next) => {
 }
 
 
-const destroy = async (req, res, next) => {
+const destroy = async(req, res, next) => {
     try {
         const { id } = req.params;
 

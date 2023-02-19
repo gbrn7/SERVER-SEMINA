@@ -15,6 +15,7 @@ const createOrganizer = async(req) => {
 
     const result = await Organizers.create({ organizer });
 
+
     const users = await Users.create({
         email,
         name,
@@ -22,6 +23,7 @@ const createOrganizer = async(req) => {
         role,
         organizer: result._id,
     })
+
 
     delete users._doc.password; //to delete the password field before return
 
@@ -49,14 +51,18 @@ const createUsers = async(req) => {
     return users;
 }
 
+const getAllUsers = async() => {
+    const result = await Users.find();
+    if (result.length == 0) throw new NotFoundError(`Not found the categories`);
+    return result;
+}
+
 const checkEmail = async(email) => {
     const result = await Users.findOne({ email });
 
     if (result) throw new BadRequestError('The Email is already registered');
 
-    delete users._doc.password; //to delete the password field before return
-
     return result;
 }
 
-module.exports = { createOrganizer, createUsers };
+module.exports = { createOrganizer, createUsers, getAllUsers };

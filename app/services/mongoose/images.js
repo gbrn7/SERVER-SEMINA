@@ -1,5 +1,5 @@
 const Images = require('../../api/v1/images/model');
-const {NotFoundError} = require('../../errors/index');
+const { NotFoundError } = require('../../errors/index');
 
 /** 
  * ada 2 cara 
@@ -9,28 +9,26 @@ const {NotFoundError} = require('../../errors/index');
 
 // * Cara Pertama
 const createImages = async(req) => {
-  const result = await Images.create({
-    name: req.file ? 
-    `uploads/${req.file.filename}` 
-    : 'uploads/avatar/default.jpeg',
-  })
+    const result = await Images.create({
+        name: req.file ? `uploads/${req.file.filename}` : 'uploads/avatar/default.png',
+    })
 
-  return result;
+    return result;
 }
 
 const checkingImages = async(id) => {
-  const result = await Images.findById(id);
+    const result = await Images.findById(id);
 
-  if(!result) throw new NotFoundError( `image with id : ${id} not found`);
+    if (!result) throw new NotFoundError(`image with id : ${id} not found`);
 
-  return result;
+    return result;
 }
 
 // * Cara kedua
-const generateUrlImages = async (req) => {
-  const result = `uploads/${req.file.filename}`;
+const generateUrlImages = async(req) => {
+    const result = `uploads/${req.file.filename}`;
 
-  return result;
+    return result;
 }
 
-module.exports = {createImages, generateUrlImages, checkingImages};
+module.exports = { createImages, generateUrlImages, checkingImages };

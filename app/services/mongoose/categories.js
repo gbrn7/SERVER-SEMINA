@@ -15,7 +15,8 @@ const createCategories = async(req) => {
     const { name } = req.body; //grab the request body
 
     // Checking in database 
-    const check = await Categories.findOne({ name }); //equivalebt wutg 'name : name'
+
+    const check = await Categories.findOne({ name, organizer: req.user.organizer }); //equivalebt wutg 'name : name'
 
     // if the input data is already in database then throw error 'BadRequestError'
     if (check) throw new BadRequestError('The category name is already in categories collection');
@@ -29,9 +30,8 @@ const createCategories = async(req) => {
 
 const getOneCategories = async(req) => {
     const { id } = req.params; //params is paramater that sended by router and must the variable must have the same name with paramater name in router
-
     // Checking in database 
-    const result = await Categories.findOne({ id, organizer: req.user.organizer });
+    const result = await Categories.findOne({ _id: id, organizer: req.user.organizer });
 
     // if the input data is already in database then throw error 'BadRequestError'
     if (!result) throw new NotFoundError(`The id Category ${id} is not found`);
@@ -44,7 +44,7 @@ const updateCategories = async(req) => {
     const { name } = req.body;
 
     //Checking in database
-    const checkid = await Categories.findOne({ id, organizer: req.user.organizer });
+    const checkid = await Categories.findOne({ _id: id, organizer: req.user.organizer });
 
     //if null throw the below message
     if (!checkid) throw new NotFoundError(`Event with id ${id} not found`);
