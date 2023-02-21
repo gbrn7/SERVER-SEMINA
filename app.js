@@ -12,12 +12,12 @@ const imagesRouter = require('./app/api/v1/images/router') //import the router
 const eventsRouter = require('./app/api/v1/events/router') //import the router
 const organizerRouter = require('./app/api/v1/Organizer/router') //import the router
 const authCMSRouter = require('./app/api/v1/auth/router') //import the router
+const orderRouter = require('./app/api/v1/order/router') //import the router
 const paymentsRouter = require('./app/api/v1/payments/router') //import the router
 const ticketsCategoriesRouter = require('./app/api/v1/Ticket Categories/router') //import the router
-const orderRouter = require('./app/api/v1/Order/router') //import the router
 const participantsRouter = require('./app/api/v1/participants/router') //import the router
 
-const v1 = '/api/v1/cms';
+const v1 = '/api/v1';
 
 
 
@@ -39,16 +39,16 @@ app.get('/', (req, res) => {
     });
 });
 
-app.use(v1, categoriesRouter);
-app.use(v1, talentsRouter);
-app.use(v1, imagesRouter);
-app.use(v1, eventsRouter);
-app.use(v1, organizerRouter);
-app.use(v1, paymentsRouter);
-app.use(v1, ticketsCategoriesRouter);
-app.use(v1, orderRouter);
-app.use(v1, authCMSRouter);
-app.use(v1, participantsRouter);
+app.use(`${v1}/cms`, categoriesRouter);
+app.use(`${v1}/cms`, talentsRouter);
+app.use(`${v1}/cms`, imagesRouter);
+app.use(`${v1}/cms`, eventsRouter);
+app.use(`${v1}/cms`, organizerRouter);
+app.use(`${v1}/cms`, authCMSRouter);
+app.use(`${v1}/cms`, orderRouter);
+app.use(`${v1}/cms`, paymentsRouter);
+app.use(`${v1}/cms`, ticketsCategoriesRouter);
+app.use(`${v1}`, participantsRouter);
 
 
 // middlewares //this must in the bellow of router code so not return error
