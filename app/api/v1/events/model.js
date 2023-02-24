@@ -45,7 +45,7 @@ const EventSchema = mongoose.Schema({
     keypoint: {
         type: [String],
     },
-    venue_name: {
+    venueName: {
         type: String,
         required: [true, 'The venue of events is required'],
     },

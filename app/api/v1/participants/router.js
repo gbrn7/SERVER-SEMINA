@@ -1,17 +1,8 @@
 const express = require('express');
 const router = express();
+const { signup } = require('./controller');
 
-router.get('/events', (req, res) => {
-    res.status(200).json({
-        message: 'get all events',
-    });
-});
-
-router.get('/events/:id', (req, res) => {
-    res.status(200).json({
-        message: 'get detail events by id',
-    });
-});
+router.post('/participants/auth/signup', signup);
 
 router.post('/events/:id/checkout', (req, res) => {
     res.status(200).json({
@@ -33,11 +24,6 @@ router.get('/dashboard/:id', (req, res) => {
 router.post('/participants/auth/signin', (req, res) => {
     res.status(200).json({
         message: 'signin',
-    });
-});
-router.post('/participants/auth/signup', (req, res) => {
-    res.status(200).json({
-        message: 'signup',
     });
 });
 

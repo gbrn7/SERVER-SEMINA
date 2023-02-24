@@ -7,8 +7,9 @@ const index = async(req, res, next) => {
         const result = await getAllCategories(req);
         // if (!result) return res.status(404).json({ message: "Id categories is not valid" })
         //if conditional above is true so the command bellow is not to be execute
-
-        res.status(StatusCodes.OK).json({
+        // console.log('result controller')
+        // console.log(result)
+        res.status(StatusCodes.OK).send({
             data: result,
         });
     } catch (err) {

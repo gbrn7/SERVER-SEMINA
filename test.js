@@ -20,27 +20,27 @@
 
 // testing();
 
-function cobaPromise() {
-    const waktu = 5000;
-    return new Promise((resolve, reject) => {
-        if (waktu < 5000) {
-            setTimeout(() => {
-                resolve('selesai')
-            }, 3000);
-        } else {
-            reject('kelamaan');
-        }
-    })
-};
+// function cobaPromise() {
+//     const waktu = 5000;
+//     return new Promise((resolve, reject) => {
+//         if (waktu < 5000) {
+//             setTimeout(() => {
+//                 resolve('selesai')
+//             }, 3000);
+//         } else {
+//             reject('kelamaan');
+//         }
+//     })
+// };
 
-async function cobaAsync() {
-    try {
-        const coba = await cobaPromise();
-        console.log(coba);
-    } catch (error) {
-        console.log(error);
-    }
+// async function cobaAsync() {
+//     try {
+//         const coba = await cobaPromise();
+//         console.log(coba);
+//     } catch (error) {
+//         console.log(error);
+//     }
 
-}
-cobaAsync();
-console.log('line 2');
+// }
+// cobaAsync();
+// console.log('line 2');

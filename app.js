@@ -13,9 +13,9 @@ const eventsRouter = require('./app/api/v1/events/router') //import the router
 const organizerRouter = require('./app/api/v1/Organizer/router') //import the router
 const authCMSRouter = require('./app/api/v1/auth/router') //import the router
 const orderRouter = require('./app/api/v1/order/router') //import the router
+const participantsRouter = require('./app/api/v1/participants/router') //import the router
 const paymentsRouter = require('./app/api/v1/payments/router') //import the router
 const ticketsCategoriesRouter = require('./app/api/v1/Ticket Categories/router') //import the router
-const participantsRouter = require('./app/api/v1/participants/router') //import the router
 
 const v1 = '/api/v1';
 

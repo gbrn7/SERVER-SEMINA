@@ -2,11 +2,11 @@ const { BadRequestError, NotFoundError } = require('../../errors/index');
 const { checkingImages } = require('./images');
 const { checkingCategories } = require('./categories');
 const { checkingTalents } = require('./talents');
-const Event = require('../../api/v1/events/model');
+const Events = require('../../api/v1/events/model');
 const { populate } = require('../../api/v1/events/model');
 
 const getAllEvents = async(req) => {
-    const { keyword, category, talent } = req.query;
+    const { keyword, category, talent, status } = req.query;
 
     let condition = { organizer: req.user.organizer };
 
@@ -19,7 +19,13 @@ const getAllEvents = async(req) => {
     if (talent) {
         condition = {...condition, talent: talent }
     }
-    const result = await Event.find(condition)
+    if (['Draft', 'Published'].includes(status)) {
+        condition = {...condition, statusEvent: status }
+    }
+
+
+
+    const result = await Events.find(condition)
         .populate({
             path: 'category',
             select: '_id name',
@@ -44,7 +50,7 @@ const createEvent = async(req) => {
         about,
         tagline,
         keypoint,
-        venue_name,
+        venueName,
         statusEvent,
         tickets,
         category,
@@ -55,17 +61,17 @@ const createEvent = async(req) => {
     await checkingCategories(category);
     await checkingImages(image);
     await checkingTalents(talent);
-    const check = await Event.findOne({ title });
+    const check = await Events.findOne({ title });
 
     if (check) throw new BadRequestError(`The event with title ${title} is already exist`);
 
-    const result = await Event.create({
+    const result = await Events.create({
         title,
         date,
         about,
         tagline,
         keypoint,
-        venue_name,
+        venueName,
         statusEvent,
         tickets,
         category,
@@ -79,7 +85,7 @@ const createEvent = async(req) => {
 
 const getOneEvent = async(req) => {
     const { id } = req.params;
-    const result = await Event.findOne({ _id: id, organizer: req.user.organizer })
+    const result = await Events.findOne({ _id: id, organizer: req.user.organizer })
         .populate({ path: 'image', select: '_id name' })
         .populate({ path: 'category', select: "_id name" })
         .populate({ path: 'talent', select: '_id name', populate: { path: 'image', select: '_id name' } });
@@ -98,7 +104,7 @@ const updateEvent = async(req) => {
         about,
         tagline,
         keypoint,
-        venue_name,
+        venueName,
         statusEvent,
         tickets,
         category,
@@ -110,7 +116,7 @@ const updateEvent = async(req) => {
     await checkingCategories(category);
     await checkingTalents(talent);
 
-    const checkid = await Event.findOne({ _id: id, organizer: req.user.organizer });
+    const checkid = await Events.findOne({ _id: id, organizer: req.user.organizer });
 
     if (!checkid) throw new NotFoundError(`Event with id ${id} not found`);
 
@@ -124,7 +130,7 @@ const updateEvent = async(req) => {
         about,
         tagline,
         keypoint,
-        venue_name,
+        venueName,
         statusEvent,
         tickets,
         category,
@@ -139,7 +145,7 @@ const updateEvent = async(req) => {
 const deleteEvent = async(req) => {
     const { id } = req.params;
 
-    const result = Event.findOne({
+    const result = await Events.findOne({
         _id: id,
         organizer: req.user.organizer
     });
@@ -153,11 +159,18 @@ const deleteEvent = async(req) => {
 
 const updateStatusEvent = async(req) => {
     const { id } = req.params;
-    const { statusEvent } = req.body
+    const { statusEvent } = req.body;
 
-    const result = await Event.findByIdAndUpdate(id, { statusEvent }, { new: true, runValidators: true });
+    if (!['Draft', 'Published'].includes(statusEvent))
+        throw new BadRequestError("statusEvent is only Draft or Published")
+
+    const result = await Events.findOne({ _id: id, organizer: req.user.organizer });
 
     if (!result) throw new NotFoundError(`the event with id ${id} is not found`);
+
+    result.statusEvent = statusEvent;
+
+    await result.save();
 
     return result;
 }
