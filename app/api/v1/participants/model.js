@@ -3,7 +3,7 @@ const { model, Schema } = mongoose;
 const bcrypt = require('bcryptjs');
 
 const participantModel = Schema({
-        firstname: {
+        firstName: {
             type: String,
             required: [true, "The name is required"],
             maxLength: [20, "The maximu name character is 20"],
@@ -11,7 +11,7 @@ const participantModel = Schema({
         },
         lastName: {
             type: String,
-            required: [true, "The name is required"],
+            required: [true, "The lastname is required"],
             maxLength: [20, "The maximu name character is 20"],
             minLength: [3, "The minimum name character is 3"]
         },
@@ -28,7 +28,7 @@ const participantModel = Schema({
         status: {
             type: String,
             enum: ['active', 'not active'],
-            default: 'tidak'
+            default: 'not active'
         },
         role: {
             type: String,
@@ -45,7 +45,7 @@ const participantModel = Schema({
 participantModel.pre('save', async function(next) {
     const User = this;
     if (User.isModified('password')) {
-        User.password = await bcrypt.hash(user.password, 12);
+        User.password = await bcrypt.hash(User.password, 12);
     }
     next();
 });

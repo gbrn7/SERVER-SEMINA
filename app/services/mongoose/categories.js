@@ -33,6 +33,7 @@ const getOneCategories = async(req) => {
     // Checking in database 
     const result = await Categories.findOne({ _id: id, organizer: req.user.organizer });
 
+    console.log(result);
     // if the input data is already in database then throw error 'BadRequestError'
     if (!result) throw new NotFoundError(`The id Category ${id} is not found`);
 

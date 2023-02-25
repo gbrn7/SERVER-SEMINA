@@ -22,7 +22,7 @@ const otpMail = async(email, data) => {
             to: email,
             subject: 'Otp for registration is: ',
             html: Mustache.render(template, data),
-            //Muhsatache is used for html rendered
+            //Mustache is used for html rendered
         };
 
         return await transporter.sendMail(message);

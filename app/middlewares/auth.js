@@ -41,6 +41,7 @@ const authenticateParticipant = async(req, res, next) => {
 
         if (authHeader && authHeader.startsWith('Bearer')) {
             token = authHeader.split(' ')[1];
+            // the command line above is used for split into a array subbstrings and grab the index 1 
         }
 
         if (!token) {
@@ -50,11 +51,11 @@ const authenticateParticipant = async(req, res, next) => {
         const payload = isTokenValid({ token });
 
         //Attach the user and his permission to the req object
-        req.user = {
+        req.participant = {
             email: payload.email,
             lastName: payload.lastName,
             firstName: payload.firstName,
-            id: payload.userId,
+            id: payload.participantId,
         }
 
         next();

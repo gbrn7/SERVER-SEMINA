@@ -8,7 +8,7 @@ const createTokenUser = (user) => {
     };
 };
 
-const createTokenParticipant = (user) => {
+const createTokenParticipant = (participant) => {
     return {
         lastname: participant.lastname,
         participantId: participant._id,
