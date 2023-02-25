@@ -6,7 +6,8 @@ const {
     signIn,
     getAllLandingPage,
     getDetailLandingPage,
-    getDashboard
+    getDashboard,
+    checkout
 } = require('./controller');
 const { authenticateParticipant } = require('../../../middlewares/auth')
 
@@ -22,11 +23,7 @@ router.get('/events/:id', getDetailLandingPage);
 
 router.get('/orders', authenticateParticipant, getDashboard);
 
-router.get('/dashboard/:id', (req, res) => {
-    res.status(200).json({
-        message: 'get detail dashboard by id',
-    });
-});
+router.post('/checkout', authenticateParticipant, checkout);
 
 
 module.exports = router; //this command is to make this router can be accessible by app.js

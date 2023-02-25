@@ -9,7 +9,7 @@ const index = async(req, res, next) => {
         //if conditional above is true so the command bellow is not to be execute
         // console.log('result controller')
         // console.log(result)
-        res.status(StatusCodes.OK).send({
+        res.status(StatusCodes.OK).json({
             data: result,
         });
     } catch (err) {
