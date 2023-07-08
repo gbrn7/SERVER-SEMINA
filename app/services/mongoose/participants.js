@@ -4,7 +4,7 @@ const Orders = require('../../api/v1/order/model');
 const Payments = require('../../api/v1/payments/model');
 const { BadRequestError, NotFoundError, UnauthorizedError } = require('../../errors');
 const { createTokenParticipant, createJWT } = require('../../utils');
-const { otpMail } = require('../email')
+const { otpMail, invoiceMail } = require('../email')
 
 const signUpParticipant = async(req) => {
     const { firstName, lastName, email, password, role } = req.body;
@@ -33,6 +33,7 @@ const signUpParticipant = async(req) => {
             otp: Math.floor(Math.random() * 9999),
         });
     }
+
 
     await otpMail(email, result);
 
@@ -181,6 +182,14 @@ const checkoutOrder = async(req) => {
     });
 
     await result.save();
+
+    const data = await Orders.findOne()
+        .populate({ path: 'payment', select: 'type' });
+    console.log(data);
+    console.log(req.participant.email);
+
+    await invoiceMail(req.participant.email, data);
+
     return result;
 };
 

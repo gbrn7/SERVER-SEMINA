@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>A simple, clean, and responsive HTML invoice template</title>
+
+    <style>
+      .invoice-box {
+        max-width: 800px;
+        margin: auto;
+        padding: 30px;
+        border: 1px solid #eee;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+        font-size: 16px;
+        line-height: 24px;
+        font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+        color: #555;
+      }
+
+      .invoice-box table {
+        width: 100%;
+        line-height: inherit;
+        text-align: left;
+      }
+
+      .invoice-box table td {
+        padding: 5px;
+        vertical-align: top;
+      }
+
+      .invoice-box table tr td:nth-child(2) {
+        text-align: right;
+      }
+
+      .invoice-box table tr.top table td {
+        padding-bottom: 20px;
+      }
+
+      .invoice-box table tr.top table td.title {
+        font-size: 45px;
+        line-height: 45px;
+        color: #333;
+      }
+
+      .invoice-box table tr.information table td {
+        padding-bottom: 40px;
+      }
+
+      .invoice-box table tr.heading td {
+        background: #eee;
+        border-bottom: 1px solid #ddd;
+        font-weight: bold;
+      }
+
+      .invoice-box table tr.details td {
+        padding-bottom: 20px;
+      }
+
+      .invoice-box table tr.item td {
+        border-bottom: 1px solid #eee;
+      }
+
+      .invoice-box table tr.item.last td {
+        border-bottom: none;
+      }
+
+      .invoice-box table tr.total td:nth-child(2) {
+        border-top: 2px solid #eee;
+        font-weight: bold;
+      }
+
+      @media only screen and (max-width: 600px) {
+        .invoice-box table tr.top table td {
+          width: 100%;
+          display: block;
+          text-align: center;
+        }
+        .invoice-box table tr.information table td {
+          width: 100%;
+          display: block;
+          text-align: center;
+        }
+      }
+      /** RTL **/
+
+      .invoice-box.rtl {
+        direction: rtl;
+        font-family: Tahoma, "Helvetica Neue", "Helvetica", Helvetica, Arial,
+          sans-serif;
+      }
+
+      .invoice-box.rtl table {
+        text-align: right;
+      }
+
+      .invoice-box.rtl table tr td:nth-child(2) {
+        text-align: left;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="invoice-box">
+      <table cellpadding="0" cellspacing="0">
+        <tr class="top">
+          <td colspan="2">
+            <table>
+              <tr>
+                <td class="title">
+                  <img
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAoCAMAAAB5EAzbAAACGVBMVEUAAAAAqv8AgP8QjP8Qj/8lmP8klv8Uh/wXh/0Ojv8Ojf8YhfsXhfsYhfsZhPsZhPoZhPormv8Ojv8Oj/8Ojv8bgvocgvoznv80nv80n/8Ojv8Pjf8Pjv8Pj/8Qjv8Qj/8Rj/8Si/4Sj/8SkP8TkP8Tkf8UkP8Ukf8VkP8Vkf8Vkv8Xkf8Xkv8YhPsYhfsYkv8Zg/oZhPsZkv8Zk/8ak/8cgPkclP8dgPkelf8flv8glf8glv8hlv8ilv8imP8jlv8jmP8kl/8mmP8omf8omv8pmf8pmv8qmv8rmv8sm/8tm/8um/8unP8unf8wnP8wnv8xn/8ynf8ynv8znf8znv80nv80n/81n/81oP82n/82of85ov87ov88o/89o/9Apv9BpP9Dpf9Dpv9Gp/9Iqf9Mq/9Oq/9OrP9Qrf9SrP9Srf9Tr/9Xr/9Yr/9ZsP9csf9ds/9gs/9itf9ktf9ktv9nt/9otv9quP9rt/9zvf92vv93vf94wP98v/+Bwv+Cwv+Cw/+GxP+Hxv+Ixf+Kxf+Kxv+LyP+Nx/+PyP+Qy/+Ryf+Ry/+Tyv+Uy/+UzP+Zzf+cz/+d0P+h0f+i0f+j0v+k1P+l0v+o1v+p1P+q1/+t1v+v1/+w1/+w2P+x1/+y2P+z2v+02v+23f+43f+63P++3/+/4P/E4//G4//P6P/Q6P/X7P/Y7P/d7//e7//h8f/i8P/i8f////9IFPFMAAAAGnRSTlMAAwQfID4/ZGalpq2wwdDX2eHp7u/5+f3+/oCdghkAAAABYktHRLKtas/oAAACHUlEQVRIx2NgYBWUjCQShHg5O1iZ6asryEtJySgamovxMDEwsIkTozXU28lCW0EKFeiZmwswMAgSttfNWktGCguQNjU352CQwK/by1pDCicwMDfnZcCjOdzDQlkKH9A1N+fDbUCQo4oUAYBkQN9KBEgAWe6qj6neNqe6tjwue+ryZZ1h6AZM2ogAiZGRrmpY7Itpbm9v75m/cBVQzbpSfAa4qmNzr3MLUH/7jCVL5m0AKlqfgtsAR+weLgPpb18CBEtBqhahGjBlLQJYYtUv1wrSXw8yYALIgPXWKAbMWYIA7lgNMAI7oAGkoB/sUH8SDZBphhswEewCYxQDehcCwYK5YGCFPQwKQQZ0gAxYATJgJmZC8sGf7KwbQSZMXrJk9npQPMZiGOApSyDd+dQBDeiaNmsNUP/qdIyk7CVHKOFK6SQXV+S6RTVNn1ppjZEXfAjrx5sXApWkKDIgXEeKMgNspSgzwEeGQgPI8wDCABcpygwIV6XQADcpCg3QodAAPxAzqQQGfIE5F84pAkoFwHnxQF4WnGcBM8AeZEA3vEArkJJSgHPWAaVK4Lw2IG8xnBcFM0ALZEBGDQxEAF0A51QBpaLhvFQgrwjOs4MaECwlRVkYuFNqgA2YqaSGHyjhNsAEzMxvxw/ycBugCWZm1uIHabgNkKc0DEQoMADcwOAiXz+oicPOwCJEiQ/4GRgYmDmFydENauaJcjMyAABYyTjPvljhZAAAAABJRU5ErkJggg=="
+                    width="100"
+                    height="70"
+                  />
+                </td>
+
+                <td>
+                  Invoice #: {{_id}}<br />
+                  Created: {{date}}<br />
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr class="information">
+          <td colspan="2">
+            <table>
+              <tr>
+                <td>
+                  Semina, Inc.<br />
+                  12345 Sunny Road<br />
+                  Sunnyville, CA 12345
+                </td>
+
+                <td>
+                  NSA Corp.<br />
+                  Muhammad Rayhan Gibran<br />
+                  {{personalDetail.email}}
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr class="heading">
+          <td>Payment Method</td>
+        </tr>
+
+        <tr class="details">
+          <td>{{payment.type}}</td>
+        </tr>
+
+        <tr class="heading">
+          <td>Item</td>
+
+          <td>Price</td>
+        </tr>
+
+        <tr class="total">
+          {{#orderItems}}
+          <td>
+            <b>{{ticketCategories.type}}</b>
+            <b> count : {{sumTicket}}</b>
+          </td>
+
+          <td>
+            <b>{{ticketCategories.price}}</b>
+          </td>
+          {{/orderItems}}
+        </tr>
+
+        <tr class="total">
+          <td>Total</td>
+
+          <td>{{totalPay}}</td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
