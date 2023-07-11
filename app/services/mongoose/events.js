@@ -5,22 +5,22 @@ const { checkingTalents } = require('./talents');
 const Events = require('../../api/v1/events/model');
 const { populate } = require('../../api/v1/events/model');
 
-const getAllEvents = async(req) => {
+const getAllEvents = async (req) => {
     const { keyword, category, talent, status } = req.query;
 
     let condition = { organizer: req.user.organizer };
 
     if (keyword) {
-        condition = {...condition, title: { $regex: keyword, $options: 'i' } }
+        condition = { ...condition, title: { $regex: keyword, $options: 'i' } }
     }
     if (category) {
-        condition = {...condition, category: category };
+        condition = { ...condition, category: category };
     }
     if (talent) {
-        condition = {...condition, talent: talent }
+        condition = { ...condition, talent: talent }
     }
     if (['Draft', 'Published'].includes(status)) {
-        condition = {...condition, statusEvent: status }
+        condition = { ...condition, statusEvent: status }
     }
 
 
@@ -43,7 +43,7 @@ const getAllEvents = async(req) => {
     return result;
 }
 
-const createEvent = async(req) => {
+const createEvent = async (req) => {
     const {
         title,
         date,
@@ -83,7 +83,7 @@ const createEvent = async(req) => {
     return result;
 }
 
-const getOneEvent = async(req) => {
+const getOneEvent = async (req) => {
     const { id } = req.params;
     const result = await Events.findOne({ _id: id, organizer: req.user.organizer })
         .populate({ path: 'image', select: '_id name' })
@@ -96,7 +96,7 @@ const getOneEvent = async(req) => {
     return result;
 };
 
-const updateEvent = async(req) => {
+const updateEvent = async (req) => {
     const { id } = req.params;
     const {
         title,
@@ -120,11 +120,11 @@ const updateEvent = async(req) => {
 
     if (!checkid) throw new NotFoundError(`Event with id ${id} not found`);
 
-    const check = await Event.findOne({ title, _id: { $ne: id }, organizer: req.user.organizer });
+    const check = await Events.findOne({ title, _id: { $ne: id }, organizer: req.user.organizer });
 
     if (check) throw new BadRequestError(`The Event ${title} is already exist`);
 
-    const result = await Event.findByIdAndUpdate(id, {
+    const result = await Events.findByIdAndUpdate(id, {
         title,
         date,
         about,
@@ -142,7 +142,7 @@ const updateEvent = async(req) => {
     return result;
 };
 
-const deleteEvent = async(req) => {
+const deleteEvent = async (req) => {
     const { id } = req.params;
 
     const result = await Events.findOne({
@@ -157,7 +157,7 @@ const deleteEvent = async(req) => {
     return result;
 };
 
-const updateStatusEvent = async(req) => {
+const updateStatusEvent = async (req) => {
     const { id } = req.params;
     const { statusEvent } = req.body;
 
