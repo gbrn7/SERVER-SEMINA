@@ -17,6 +17,7 @@ const orderRouter = require('./app/api/v1/order/router') //import the router
 const participantsRouter = require('./app/api/v1/participants/router') //import the router
 const paymentsRouter = require('./app/api/v1/payments/router') //import the router
 const ticketsCategoriesRouter = require('./app/api/v1/Ticket Categories/router') //import the router
+const userRefreshTokenRouter = require('./app/api/v1/userRefreshToken/router') //import the router
 
 const v1 = '/api/v1';
 
@@ -49,6 +50,7 @@ app.use(`${v1}/cms`, authCMSRouter);
 app.use(`${v1}/cms`, orderRouter);
 app.use(`${v1}/cms`, paymentsRouter);
 app.use(`${v1}/cms`, ticketsCategoriesRouter);
+app.use(`${v1}/cms`, userRefreshTokenRouter);
 app.use(`${v1}`, participantsRouter);
 
 
