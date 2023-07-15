@@ -1,4 +1,4 @@
-const { createOrganizer, createUsers, getAllUsers, getAllAdmin, deleteAdmin, updateAdmin, getOneUser } = require('../../../services/mongoose/users');
+const { createOrganizer, createUsers, getAllUsers, getAllAdmin, deleteAdmin, updateAdmin, getOneUser, getAllOrganizers, UpdateOrganizer } = require('../../../services/mongoose/users');
 const { StatusCodes } = require('http-status-codes');
 
 
@@ -13,6 +13,29 @@ const createCmsOrganizer = async (req, res, next) => {
 
     } catch (error) {
         next(error);
+    }
+}
+
+const updateCmsOrganizer = async (req, res, next) => {
+    try {
+        const result = await UpdateOrganizer(req);
+        res.status(StatusCodes.OK).json({
+            data: result,
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+const getCmsOrganizers = async (req, res, next) => {
+    try {
+        const result = await getAllOrganizers(req);
+        res.status(StatusCodes.OK).json({
+            data: result,
+        })
+
+    } catch (error) {
+        next(error)
     }
 }
 
@@ -89,4 +112,14 @@ const destroyAdmin = async (req, res, next) => {
 }
 
 
-module.exports = { createCmsOrganizer, createCmsUser, getCmsUsers, getCmsAdmin, destroyAdmin, updateCmsAdmin, find };
+module.exports = {
+    createCmsOrganizer,
+    updateCmsOrganizer,
+    createCmsUser,
+    getCmsUsers,
+    getCmsAdmin,
+    destroyAdmin,
+    updateCmsAdmin,
+    find,
+    getCmsOrganizers
+};

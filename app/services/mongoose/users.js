@@ -1,19 +1,15 @@
 const Users = require('../../api/v1/users/model');
-const Organizers = require('../../api/v1/organizer/model');
-const { BadRequestError } = require('../../errors/index');
-const { StatusCodes } = require('http-status-codes');
+const Organizer = require('../../api/v1/organizer/model');
+const { BadRequestError, NotFoundError } = require('../../errors');
 
 const createOrganizer = async (req) => {
     const { organizer, role, email, password, confirmPassword, name } = req.body;
-
-
-    const check = await checkEmail(email);
 
     if (password !== confirmPassword) {
         throw new BadRequestError('the confirm password and password is not match');
     }
 
-    const result = await Organizers.create({ organizer });
+    const result = await Organizer.create({ organizer });
 
 
     const users = await Users.create({
@@ -28,6 +24,68 @@ const createOrganizer = async (req) => {
     delete users._doc.password; //to delete the password field before return
 
     return users;
+}
+
+const UpdateOrganizer = async (req) => {
+    const { id } = req.params;
+    const { organizer, role, email, password, confirmPassword, name } = req.body;
+
+    if (password !== confirmPassword) {
+        throw new BadRequestError('the confirm password and password is not match');
+    }
+
+    //Checking in database
+    const checkid = await Users.findOne({ _id: id });
+
+    //if null throw the below message
+    if (!checkid) throw new NotFoundError(`organizer with id ${id} not found`);
+
+    // Checking in database 
+    const check = await Organizer.findOne({ organizer, _id: { $ne: checkid.organizer } });
+
+    // if the input data is already in database then throw error 'BadRequestError'
+    if (check) throw new BadRequestError(`The organizer name is duplicate with other`);
+
+    const result1 = await Organizer.findByIdAndUpdate({ _id: checkid.organizer },
+        { organizer },
+        { new: true, runValidators: true });
+
+    if (!result1) throw new NotFoundError(`The new name of organizer is already inserted`);
+
+    const result2 = await Users.findByIdAndUpdate({ _id: id },
+        { role, email, password, confirmPassword, name },
+        { new: true, runValidators: true })
+        .populate({ path: 'organizer' });
+
+    if (!result2) throw new NotFoundError(`Internal Servel Error`);
+
+    return result2;
+}
+
+const getOneOrganizer = async (req) => {
+    const { id } = req.params;
+
+    const result = await Users.findOne({ _id: id });
+}
+
+const getAllOrganizers = async (req) => {
+    const { keyword, limit, page } = req.query;
+
+    let condition = { role: 'organizer' };
+
+    if (keyword) {
+        condition = { ...condition, name: { $regex: keyword, $options: 'i' } }
+    }
+
+    const result = await Users.find(condition)
+        .limit(limit)
+        .skip(limit * (page - 1));
+
+    if (result.length == 0) throw new NotFoundError(`Not found the organizer`);
+
+    const count = await Users.countDocuments(condition);
+
+    return { organizers: result, pages: Math.ceil(count / limit), total: count };
 }
 
 const createUsers = async (req) => {
@@ -120,7 +178,8 @@ const updateAdmin = async (req) => {
 const getOneUser = async (req) => {
     const { id } = req.params; //params is paramater that sended by router and must the variable must have the same name with paramater name in router
     // Checking in database 
-    const result = await Users.findOne({ _id: id });
+    const result = await Users.findOne({ _id: id })
+        .populate({ path: 'organizer' });
 
     // if the input data is already in database then throw error 'BadRequestError'
     if (!result) throw new NotFoundError(`The id Category ${id} is not found`);
@@ -130,12 +189,14 @@ const getOneUser = async (req) => {
     return result;
 }
 
-const checkEmail = async (email) => {
-    const result = await Users.findOne({ email });
-
-    if (result) throw new BadRequestError('The Email is already registered');
-
-    return result;
-}
-
-module.exports = { createOrganizer, createUsers, getAllUsers, getAllAdmin, deleteAdmin, updateAdmin, getOneUser };
+module.exports = {
+    createOrganizer,
+    createUsers,
+    UpdateOrganizer,
+    getAllUsers,
+    getAllAdmin,
+    deleteAdmin,
+    updateAdmin,
+    getOneUser,
+    getAllOrganizers
+};
