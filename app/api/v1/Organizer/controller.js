@@ -1,8 +1,8 @@
-const { createOrganizer, createUsers, getAllUsers } = require('../../../services/mongoose/users');
+const { createOrganizer, createUsers, getAllUsers, getAllAdmin, deleteAdmin, updateAdmin, getOneUser } = require('../../../services/mongoose/users');
 const { StatusCodes } = require('http-status-codes');
 
 
-const createCmsOrganizer = async(req, res, next) => {
+const createCmsOrganizer = async (req, res, next) => {
     try {
 
         const result = await createOrganizer(req);
@@ -16,7 +16,7 @@ const createCmsOrganizer = async(req, res, next) => {
     }
 }
 
-const createCmsUser = async(req, res, next) => {
+const createCmsUser = async (req, res, next) => {
     try {
         const result = await createUsers(req);
 
@@ -29,7 +29,7 @@ const createCmsUser = async(req, res, next) => {
     }
 }
 
-const getCmsUsers = async(req, res, next) => {
+const getCmsUsers = async (req, res, next) => {
     try {
         const result = await getAllUsers();
         res.status(StatusCodes.OK).json({
@@ -41,5 +41,52 @@ const getCmsUsers = async(req, res, next) => {
     }
 }
 
+const find = async (req, res, next) => {
+    try {
+        const result = await getOneUser(req);
+        res.status(StatusCodes.OK).json({
+            data: result,
+        })
 
-module.exports = { createCmsOrganizer, createCmsUser, getCmsUsers };
+    } catch (error) {
+        next(error)
+    }
+}
+
+const getCmsAdmin = async (req, res, next) => {
+    try {
+        const result = await getAllAdmin(req);
+        res.status(StatusCodes.OK).json({
+            data: result,
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
+const updateCmsAdmin = async (req, res, next) => {
+    try {
+        const result = await updateAdmin(req);
+        res.status(StatusCodes.OK).json({
+            data: result,
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+const destroyAdmin = async (req, res, next) => {
+    try {
+
+        const result = await deleteAdmin(req);
+
+        res.status(StatusCodes.OK).json({
+            data: result,
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+module.exports = { createCmsOrganizer, createCmsUser, getCmsUsers, getCmsAdmin, destroyAdmin, updateCmsAdmin, find };

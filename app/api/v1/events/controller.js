@@ -1,9 +1,7 @@
 const { getAllEvents, createEvent, getOneEvent, updateEvent, deleteEvent, updateStatusEvent } = require('../../../services/mongoose/events');
 const { StatusCodes } = require('http-status-codes');
-const { deleteCategories } = require('../../../services/mongoose/categories');
 
-
-const index = async(req, res, next) => {
+const index = async (req, res, next) => {
 
     try {
         const result = await getAllEvents(req);
@@ -17,7 +15,7 @@ const index = async(req, res, next) => {
 
 }
 
-const create = async(req, res, next) => {
+const create = async (req, res, next) => {
     try {
         const result = await createEvent(req);
 
@@ -31,7 +29,7 @@ const create = async(req, res, next) => {
 }
 
 
-const find = async(req, res, next) => {
+const find = async (req, res, next) => {
     try {
         const result = await getOneEvent(req);
 
@@ -44,7 +42,7 @@ const find = async(req, res, next) => {
     }
 }
 
-const update = async(req, res, next) => {
+const update = async (req, res, next) => {
     try {
         const result = await updateEvent(req);
 
@@ -57,7 +55,7 @@ const update = async(req, res, next) => {
     }
 }
 
-const destroy = async(req, res, next) => {
+const destroy = async (req, res, next) => {
     try {
         const result = await deleteEvent(req);
 
@@ -70,7 +68,7 @@ const destroy = async(req, res, next) => {
     }
 }
 
-const updateStatus = async(req, res, next) => {
+const updateStatus = async (req, res, next) => {
     try {
         const result = await updateStatusEvent(req);
 

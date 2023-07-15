@@ -2,8 +2,15 @@ const Payments = require('../../api/v1/payments/model');
 const { checkingImages } = require('./images');
 const { BadRequestError, NotFoundError } = require('../../errors');
 
-const getAllPayments = async(req) => {
-    const condition = { organizer: req.user.organizer };
+const getAllPayments = async (req) => {
+
+    const { keyword } = req.query;
+    let condition = { organizer: req.user.organizer };
+
+    if (keyword) {
+        condition = { ...condition, type: { $regex: keyword, $options: 'i' } };
+    }
+
     const result = await Payments.find(condition)
         .populate({
             path: 'image',
@@ -16,7 +23,7 @@ const getAllPayments = async(req) => {
     return result;
 }
 
-const createPayments = async(req) => {
+const createPayments = async (req) => {
     const { type, image } = req.body;
 
     await checkingImages(image);
@@ -34,7 +41,7 @@ const createPayments = async(req) => {
     return result;
 }
 
-const getOnePayments = async(req) => {
+const getOnePayments = async (req) => {
     const { id } = req.params;
     const organizer = req.user.organizer
     const result = await Payments.findOne({ _id: id, organizer })
@@ -48,7 +55,7 @@ const getOnePayments = async(req) => {
     return result;
 }
 
-const updatePayments = async(req) => {
+const updatePayments = async (req) => {
     const { id } = req.params;
     const { type, image } = req.body;
 
@@ -69,7 +76,7 @@ const updatePayments = async(req) => {
     return result;
 }
 
-const deletePayments = async(req) => {
+const deletePayments = async (req) => {
     const { id } = req.params;
 
     const result = await Payments.findOne({ _id: id, organizer: req.user.organizer });
@@ -81,7 +88,7 @@ const deletePayments = async(req) => {
     return result;
 }
 
-const chekingPayments = async(id) => {
+const chekingPayments = async (id) => {
     const result = await Payments.findById(id);
 
     if (!result) throw new NotFoundError(`Payment with id ${id} not found`);

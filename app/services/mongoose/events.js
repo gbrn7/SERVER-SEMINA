@@ -3,7 +3,6 @@ const { checkingImages } = require('./images');
 const { checkingCategories } = require('./categories');
 const { checkingTalents } = require('./talents');
 const Events = require('../../api/v1/events/model');
-const { populate } = require('../../api/v1/events/model');
 
 const getAllEvents = async (req) => {
     const { keyword, category, talent, status } = req.query;
@@ -40,6 +39,8 @@ const getAllEvents = async (req) => {
             populate: { path: 'image', select: '_id name' },
         });
 
+    // console.log(result);
+
     return result;
 }
 
@@ -49,7 +50,7 @@ const createEvent = async (req) => {
         date,
         about,
         tagline,
-        keypoint,
+        keyPoint,
         venueName,
         statusEvent,
         tickets,
@@ -57,6 +58,7 @@ const createEvent = async (req) => {
         image,
         talent
     } = req.body;
+
 
     await checkingCategories(category);
     await checkingImages(image);
@@ -70,7 +72,7 @@ const createEvent = async (req) => {
         date,
         about,
         tagline,
-        keypoint,
+        keyPoint,
         venueName,
         statusEvent,
         tickets,
@@ -80,6 +82,7 @@ const createEvent = async (req) => {
         organizer: req.user.organizer,
     });
 
+    // console.log(result);
     return result;
 }
 
@@ -89,7 +92,7 @@ const getOneEvent = async (req) => {
         .populate({ path: 'image', select: '_id name' })
         .populate({ path: 'category', select: "_id name" })
         .populate({ path: 'talent', select: '_id name', populate: { path: 'image', select: '_id name' } });
-    console.log('test1');
+    // console.log(result);
 
     if (!result) throw new NotFoundError(`Event with id ${id} not found`);
 

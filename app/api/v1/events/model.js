@@ -42,7 +42,7 @@ const EventSchema = mongoose.Schema({
         type: String,
         required: [true, 'Tagline is required'],
     },
-    keypoint: {
+    keyPoint: {
         type: [String],
     },
     venueName: {
@@ -52,7 +52,7 @@ const EventSchema = mongoose.Schema({
     statusEvent: {
         type: String,
         enum: ['Draft', 'Published'],
-        default: 'Draft',
+        default: 'Published',
     },
     tickets: {
         type: [ticketCategoriesSchema],

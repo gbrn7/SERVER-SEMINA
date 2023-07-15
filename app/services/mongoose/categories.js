@@ -2,16 +2,28 @@ const Categories = require('../../api/v1/categories/model');
 const { BadRequestError, NotFoundError } = require('../../errors');
 
 
-const getAllCategories = async(req) => {
+const getAllCategories = async (req) => {
 
-    const result = await Categories.find({ organizer: req.user.organizer });
+    const { keyword, limit, page } = req.query;
+    let condition = { organizer: req.user.organizer };
+
+    if (keyword) {
+        condition = { ...condition, name: { $regex: keyword, $options: 'i' } };
+    }
+
+    const result = await Categories.find(condition)
+        .limit(limit)
+        .skip(limit * (page - 1));
 
     if (result.length == 0) throw new NotFoundError(`Not found the categories`);
 
-    return result;
+    const count = await Categories.countDocuments(condition);
+
+    // return result;
+    return { categories: result, pages: Math.ceil(count / limit), total: count };
 };
 
-const createCategories = async(req) => {
+const createCategories = async (req) => {
     const { name } = req.body; //grab the request body
 
     // Checking in database 
@@ -28,19 +40,18 @@ const createCategories = async(req) => {
     return result
 }
 
-const getOneCategories = async(req) => {
+const getOneCategories = async (req) => {
     const { id } = req.params; //params is paramater that sended by router and must the variable must have the same name with paramater name in router
     // Checking in database 
     const result = await Categories.findOne({ _id: id, organizer: req.user.organizer });
 
-    console.log(result);
     // if the input data is already in database then throw error 'BadRequestError'
     if (!result) throw new NotFoundError(`The id Category ${id} is not found`);
 
     return result;
 }
 
-const updateCategories = async(req) => {
+const updateCategories = async (req) => {
     const { id } = req.params;
     const { name } = req.body;
 
@@ -63,7 +74,7 @@ const updateCategories = async(req) => {
     return result;
 }
 
-const deleteCategories = async(req) => {
+const deleteCategories = async (req) => {
     const { id } = req.params;
 
     const result = await Categories.findOne({
@@ -78,7 +89,7 @@ const deleteCategories = async(req) => {
     return result;
 }
 
-const checkingCategories = async(id) => {
+const checkingCategories = async (id) => {
     const result = await Categories.findOne({
         _id: id,
     });
