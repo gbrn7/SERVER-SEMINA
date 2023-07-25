@@ -5,11 +5,12 @@ const {
     getAllEvents,
     getOneEvent,
     getAllOrders,
-    checkoutOrder
+    checkoutOrder,
+    getAllPaymentByOrganizer
 } = require('../../../services/mongoose/participants');
 const { StatusCodes } = require('http-status-codes');
 
-const signUp = async(req, res, next) => {
+const signUp = async (req, res, next) => {
     try {
         const result = await signUpParticipant(req);
 
@@ -20,7 +21,7 @@ const signUp = async(req, res, next) => {
         next(error)
     }
 }
-const signIn = async(req, res, next) => {
+const signIn = async (req, res, next) => {
     try {
         const result = await signInParticipant(req);
 
@@ -31,7 +32,7 @@ const signIn = async(req, res, next) => {
         next(error)
     }
 }
-const getAllLandingPage = async(req, res, next) => {
+const getAllLandingPage = async (req, res, next) => {
     try {
         const result = await getAllEvents(req);
 
@@ -42,7 +43,7 @@ const getAllLandingPage = async(req, res, next) => {
         next(error)
     }
 }
-const getDashboard = async(req, res, next) => {
+const getDashboard = async (req, res, next) => {
     try {
         const result = await getAllOrders(req);
 
@@ -53,7 +54,7 @@ const getDashboard = async(req, res, next) => {
         next(error)
     }
 }
-const getDetailLandingPage = async(req, res, next) => {
+const getDetailLandingPage = async (req, res, next) => {
     try {
         const result = await getOneEvent(req);
 
@@ -64,7 +65,7 @@ const getDetailLandingPage = async(req, res, next) => {
         next(error)
     }
 }
-const activeParticipant = async(req, res, next) => {
+const activeParticipant = async (req, res, next) => {
     try {
         const result = await activateParticipant(req);
 
@@ -76,7 +77,7 @@ const activeParticipant = async(req, res, next) => {
     }
 }
 
-const checkout = async(req, res, next) => {
+const checkout = async (req, res, next) => {
     try {
         const result = await checkoutOrder(req);
 
@@ -88,6 +89,18 @@ const checkout = async(req, res, next) => {
     }
 }
 
+const getAllPayment = async (req, res, next) => {
+    try {
+        const result = await getAllPaymentByOrganizer(req);
+
+        res.status(StatusCodes.OK).json({
+            data: result,
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
 module.exports = {
     signUp,
     activeParticipant,
@@ -96,4 +109,5 @@ module.exports = {
     getDashboard,
     getDetailLandingPage,
     checkout,
+    getAllPayment
 }

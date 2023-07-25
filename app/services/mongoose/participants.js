@@ -6,7 +6,7 @@ const { BadRequestError, NotFoundError, UnauthorizedError } = require('../../err
 const { createTokenParticipant, createJWT } = require('../../utils');
 const { otpMail, invoiceMail } = require('../email')
 
-const signUpParticipant = async(req) => {
+const signUpParticipant = async (req) => {
     const { firstName, lastName, email, password, role } = req.body;
 
     //if email and status not active
@@ -44,7 +44,7 @@ const signUpParticipant = async(req) => {
 
 };
 
-const signInParticipant = async(req) => {
+const signInParticipant = async (req) => {
     const { email, password } = req.body;
 
     if (!email || !password) throw new BadRequestError("Please filled email and password field");
@@ -69,7 +69,7 @@ const signInParticipant = async(req) => {
     return token;
 };
 
-const getAllEvents = async(req) => {
+const getAllEvents = async (req) => {
     const result = await Events.find({ statusEvent: 'Published' })
         .populate('category')
         .populate('image')
@@ -80,19 +80,23 @@ const getAllEvents = async(req) => {
     return result;
 
 }
-const getOneEvent = async(req) => {
+const getOneEvent = async (req) => {
     const { id } = req.params;
     const result = await Events.findOne({ _id: req.params.id })
         .populate('category')
         .populate('image')
-        .select('_id title date tickets venueName');
+        .populate({
+            path: 'talent',
+            populate: ('image')
+        })
+        .select('_id title date keyPoint organizer tickets venueName');
 
     if (!result) throw new NotFoundError(`The Published Event with id ${id} not found`);
 
     return result;
 
 }
-const getAllOrders = async(req) => {
+const getAllOrders = async (req) => {
 
     const result = await Orders.find({ participant: req.participant.id });
 
@@ -102,7 +106,7 @@ const getAllOrders = async(req) => {
 
 }
 
-const activateParticipant = async(req) => {
+const activateParticipant = async (req) => {
     const { otp, email } = req.body;
     const check = await Participants.findOne({ email });
 
@@ -120,7 +124,7 @@ const activateParticipant = async(req) => {
     return result;
 }
 
-const checkoutOrder = async(req) => {
+const checkoutOrder = async (req) => {
     const { event, personalDetail, payment, tickets } = req.body;
 
     const checkingEvent = await Events.findOne({ _id: event });
@@ -193,7 +197,7 @@ const checkoutOrder = async(req) => {
     return result;
 };
 
-const getAllPaymentByOrganizer = async(req) => {
+const getAllPaymentByOrganizer = async (req) => {
     const { organizer } = req.params;
 
     const result = await Payments.find({ organizer: organizer });
