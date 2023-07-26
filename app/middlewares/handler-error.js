@@ -1,4 +1,5 @@
 const { StatusCodes } = require('http-status-codes');
+//instead if the request have err argument this error function handler will execute because this function receive err argument
 const errorHandlerMiddleware = (err, req, res, next) => {
     // console.log('==========');
     // console.log(err);
@@ -17,8 +18,8 @@ const errorHandlerMiddleware = (err, req, res, next) => {
 
     if (err.code && err.code === 11000) {
         customError.msg = `Duplicate value entered for ${Object.keys(
-      err.keyValue
-    )} field, please choose another value`;
+            err.keyValue
+        )} field, please choose another value`;
         customError.statusCode = 400;
     }
     if (err.name === 'CastError') {

@@ -55,8 +55,8 @@ app.use(`${v1}`, participantsRouter);
 
 
 // middlewares //this must in the bellow of router code so not return error
-app.use(notFoundMiddleware);
-app.use(handleErrorMiddleware);
+app.use(notFoundMiddleware); //if request doesn't have e err argument this error funct will execute because this function not receive err argument
+app.use(handleErrorMiddleware); //instead if the request have err argument this error function handler will execute because this function receive err argument
 
 
 
