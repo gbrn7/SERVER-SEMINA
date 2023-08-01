@@ -80,6 +80,7 @@ const getAllEvents = async (req) => {
     return result;
 
 }
+
 const getOneEvent = async (req) => {
     const { id } = req.params;
     const result = await Events.findOne({ _id: req.params.id })
@@ -96,6 +97,7 @@ const getOneEvent = async (req) => {
     return result;
 
 }
+
 const getAllOrders = async (req) => {
 
     const result = await Orders.find({ participant: req.participant.id });
